@@ -1,0 +1,35 @@
+---
+import PartsTag from "./PartsTag.astro";
+interface Props {
+  tag: string;
+  title: string;
+  intro?: string;
+  align?: "left" | "center";
+  onDark?: boolean;
+}
+const { tag, title, intro, align = "left", onDark = false } = Astro.props;
+---
+
+<div class:list={[align === "center" && "text-center mx-auto", "max-w-2xl"]}>
+  <PartsTag label={tag} />
+  <h2
+    class:list={[
+      "mt-4 font-display text-3xl sm:text-4xl leading-[1.05]",
+      onDark ? "text-on-dark" : "text-primary",
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    intro && (
+      <p
+        class:list={[
+          "mt-4 text-lg leading-relaxed",
+          onDark ? "text-on-dark/75" : "text-text-muted",
+        ]}
+      >
+        {intro}
+      </p>
+    )
+  }
+</div>

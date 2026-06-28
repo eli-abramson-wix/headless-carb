@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PartsTag from "../components/PartsTag.astro";
+import GalleryLightbox, {
+  type GalleryItem,
+} from "../components/GalleryLightbox.tsx";
+import { getStory } from "../lib/wix";
+import { automotiveBusiness } from "../lib/jsonld";
+
+const story = await getStory();
+
+const gallery: GalleryItem[] = [
+  { src: "/images/gallery-2.jpg", alt: "Wall of brass jets organized in alphabetized cubbies", caption: "The jet wall, A to Z" },
+  { src: "/images/gallery-3.jpg", alt: "Tool-chest drawers beside a pegboard of carburetor parts", caption: "Drawers and pegboard" },
+  { src: "/images/gallery-1.jpg", alt: "A carburetor mid-rebuild under a work light on the bench", caption: "Mid-rebuild on the bench" },
+  { src: "/images/gallery-4.jpg", alt: "A classic carburetor fully torn down on the workbench by the window", caption: "Full teardown by the window" },
+  { src: "/images/gallery-6.jpg", alt: "A row of rebuilt motorcycle carburetors lined up on a shelf", caption: "Rebuilt rack, lined up" },
+  { src: "/images/gallery-5.jpg", alt: "An open shop manual with a magnifier over exploded carburetor diagrams", caption: "Shop manual and specs" },
+  { src: "/images/gallery-7.jpg", alt: "Grease-stained hands working on a small carburetor", caption: "Hands on the work" },
+  { src: "/images/monojet.jpg", alt: "A Rochester Monojet carburetor mid-teardown on a workshop bench", caption: "Rochester Monojet, apart" },
+];
+---
+
+<Layout
+  title="The Workshop"
+  description="Inside a one-man rural-Ohio carburetor shop: the alphabetized jet wall, the bench under tungsten light, and carbs mid-rebuild. Twenty-some years, one set of hands."
+  path="/workshop"
+  ctaLabel="See pricing"
+  jsonLd={[automotiveBusiness()]}
+>
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+      <SectionHeading
+        tag="The workshop"
+        title="Precision analog restoration"
+        intro="A clean, organized garage in rural Ohio: stamped labels, drawer fronts, and a wall of parts. The whole pitch is one set of expert hands — not a slick franchise."
+        onDark
+      />
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="border-b border-border bg-surface">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
+      <div>
+        <PartsTag label="The shop story" />
+        <h2 class="mt-4 font-display text-3xl text-primary leading-tight">
+          {story.heading}
+        </h2>
+      </div>
+      <p class="text-lg text-text-muted leading-relaxed whitespace-pre-line">
+        {story.body}
+      </p>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    <SectionHeading
+      tag="The bench, up close"
+      title="What the work actually looks like"
+      intro="Warm, honest macro and mid-shots of real shop work — grease, brass jets, cast-aluminum bodies. Tap any frame to open it."
+    />
+    <div class="mt-8">
+      <GalleryLightbox items={gallery} client:visible />
+    </div>
+  </section>
+
+  <!-- How we whisper / values strip -->
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+      <SectionHeading tag="How we whisper" title="What 'doing it right' means here" onDark />
+      <ul class="mt-8 grid gap-px bg-on-dark/15 border border-on-dark/15 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            ["I take what I can do right", "Not everything. If it's not one I can do justice, I'll say so."],
+            ["Truth before you ship", "I tell you what a carb can and can't be brought back from, up front."],
+            ["Every jet verified", "Checked against spec, not just cleaned and hoped for."],
+            ["Tested before it leaves", "Bench-flow numbers go in the box with the part."],
+          ].map(([t, d]) => (
+            <li class="pegboard p-6">
+              <p class="font-display text-lg text-on-dark">{t}</p>
+              <p class="mt-2 text-on-dark/70">{d}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8">
+        <a href="/pricing" class="btn btn-on-dark">See pricing</a>
+      </div>
+    </div>
+  </section>
+</Layout>

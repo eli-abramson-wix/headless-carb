@@ -1,0 +1,113 @@
+---
+import { BUSINESS } from "../lib/content";
+interface Props {
+  path: string;
+}
+const { path } = Astro.props;
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/how-it-works", label: "How It Works" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/workshop", label: "Workshop" },
+  { href: "/on-the-bench", label: "On the Bench" },
+  { href: "/faq", label: "Questions" },
+];
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="sticky top-0 z-40 bg-surface border-b border-border">
+  <!-- Stamped utility strip -->
+  <div class="bg-primary text-on-dark">
+    <div
+      class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-7 flex items-center justify-between label-caps text-on-dark/80"
+    >
+      <span>{BUSINESS.region} · Est. {BUSINESS.established}</span>
+      <span class="hidden sm:inline">{BUSINESS.hours}</span>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between gap-4 h-16">
+      <!-- Wordmark -->
+      <a href="/" class="flex items-center gap-3 group shrink-0">
+        <img
+          src="/images/logo-tag.png"
+          alt=""
+          width="44"
+          height="30"
+          class="h-8 w-auto object-contain"
+          loading="eager"
+        />
+        <span class="leading-none">
+          <span
+            class="block font-display text-base sm:text-lg tracking-[0.04em] text-primary"
+            >The Carburetor Whisperer</span
+          >
+          <span class="block label-caps text-[0.6rem] mt-0.5"
+            >Mail-in carburetor rebuild</span
+          >
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden lg:flex items-center gap-1" aria-label="Primary">
+        {
+          links.map((l) => (
+            <a
+              href={l.href}
+              aria-current={isActive(l.href) ? "page" : undefined}
+              class:list={[
+                "px-3 py-2 font-display text-sm uppercase tracking-[0.05em] border-b-2 transition-colors",
+                isActive(l.href)
+                  ? "text-accent border-accent"
+                  : "text-primary border-transparent hover:text-accent",
+              ]}
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Primary conversion (interactive on first paint) -->
+      <a href="/service-request" class="hidden sm:inline-flex btn btn-accent shrink-0"
+        >Send It In</a
+      >
+
+      <!-- Mobile menu (CSS-only disclosure) -->
+      <details class="lg:hidden relative">
+        <summary
+          class="list-none cursor-pointer p-2 -mr-2 text-primary [&::-webkit-details-marker]:hidden"
+          aria-label="Open menu"
+        >
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </summary>
+        <nav
+          class="absolute right-0 top-full mt-2 w-56 bin z-50 divide-y divide-border"
+          aria-label="Mobile"
+        >
+          {
+            [...links, { href: "/service-request", label: "Send It In" }].map(
+              (l) => (
+                <a
+                  href={l.href}
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  class:list={[
+                    "block px-4 py-3 font-display text-sm uppercase tracking-[0.05em]",
+                    isActive(l.href)
+                      ? "text-accent bg-background"
+                      : "text-primary hover:bg-background",
+                  ]}
+                >
+                  {l.label}
+                </a>
+              )
+            )
+          }
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

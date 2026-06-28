@@ -1,0 +1,92 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PartsTag from "../components/PartsTag.astro";
+import CtaBand from "../components/CtaBand.astro";
+
+const steps = [
+  {
+    n: "01",
+    t: "Box it up",
+    d: "Drain the fuel and let it dry. Wrap the carb in a couple of rags or bubble wrap and box it snug so nothing can rattle loose in transit. Leave the linkage and any brackets attached if you can.",
+    note: "Don't ship it yet — send the request first.",
+  },
+  {
+    n: "02",
+    t: "Fill out the form",
+    d: "Tell me the vehicle or engine, the carb make and model if you know it, and what it's actually doing wrong. Photos help. I read every one of these myself.",
+    note: "Takes about two minutes.",
+  },
+  {
+    n: "03",
+    t: "I confirm and send the address",
+    d: "I look at what you've got, confirm I can do it right, and quote the flat price for your type. Then I email you exactly where to ship it and how to pack it.",
+    note: "No payment yet.",
+  },
+  {
+    n: "04",
+    t: "Ship it to the bench",
+    d: "Send it to the address I gave you. When the box lands on the bench, your spot in line is set — you can watch the queue on the On the Bench page.",
+    note: "Turnaround starts the day it arrives.",
+  },
+  {
+    n: "05",
+    t: "Teardown, rebuild, flow test",
+    d: "Full teardown, ultrasonic clean, new gaskets and the right kit for your carb, jets verified against spec, and a bench-flow test so I know it runs before it leaves.",
+    note: "If something can't be saved, I call first.",
+  },
+  {
+    n: "06",
+    t: "Get it back working",
+    d: "I take payment once the rebuild is done, then box it back up — bench-flow numbers included — and mail it home to you.",
+    note: "Most rebuilds: 10–16 days on the bench.",
+  },
+];
+---
+
+<Layout
+  title="How Mail-In Works"
+  description="The four-step mail-in carburetor rebuild process: box it up, send the request, ship it to the bench, and get it back rebuilt and flow-tested. Turnaround 10–16 days."
+  path="/how-it-works"
+>
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+      <SectionHeading
+        tag="How mail-in works"
+        title="From your porch to the bench and back"
+        intro="No appointment, no drop-off, no waiting room. Here's exactly how a carburetor gets from your hands to mine and back, working."
+        onDark
+      />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    <ol class="grid gap-px bg-border border border-border md:grid-cols-2">
+      {
+        steps.map((s) => (
+          <li class="bg-surface p-7 flex gap-5">
+            <span class="manifest-num text-3xl shrink-0">{s.n}</span>
+            <div>
+              <p class="font-display text-xl text-primary">{s.t}</p>
+              <p class="mt-2 text-text-muted leading-relaxed">{s.d}</p>
+              <p class="mt-3 label-caps !text-accent">{s.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-10 bin p-7 flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
+      <div>
+        <PartsTag label="Turnaround" />
+        <p class="mt-3 text-text-muted max-w-xl">
+          Most rebuilds run ten to sixteen days from the day your box lands on
+          the bench, depending on type and how many are ahead of you.
+        </p>
+      </div>
+      <a href="/on-the-bench" class="btn btn-ghost shrink-0">See the current line</a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

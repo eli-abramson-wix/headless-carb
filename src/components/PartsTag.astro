@@ -1,0 +1,10 @@
+---
+// The signature stamped parts-tag. Used for section eyebrows + labels.
+interface Props {
+  label: string;
+  class?: string;
+}
+const { label, class: className = "" } = Astro.props;
+---
+
+<span class:list={["parts-tag stamp-in", className]}>{label}</span>

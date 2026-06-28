@@ -1,0 +1,73 @@
+---
+import { BUSINESS } from "../lib/content";
+const cols = [
+  {
+    head: "The Service",
+    links: [
+      { href: "/how-it-works", label: "How Mail-In Works" },
+      { href: "/pricing", label: "Pricing by Type" },
+      { href: "/on-the-bench", label: "On the Bench" },
+      { href: "/service-request", label: "Send It In" },
+    ],
+  },
+  {
+    head: "The Shop",
+    links: [
+      { href: "/workshop", label: "The Workshop" },
+      { href: "/faq", label: "Questions" },
+      { href: BUSINESS.social.youtube, label: "YouTube Channel", ext: true },
+    ],
+  },
+];
+const year = 2026;
+---
+
+<footer class="pegboard text-on-dark mt-auto">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <p class="font-display text-2xl tracking-[0.04em] text-on-dark">
+          The Carburetor Whisperer
+        </p>
+        <p class="mt-3 max-w-sm text-on-dark/70">
+          One bench, one guy, and a wall of jets sorted A to Z. Mail it in;
+          I'll mail it back working.
+        </p>
+        <a href="/service-request" class="btn btn-on-dark mt-6"
+          >Start a service request</a
+        >
+      </div>
+      {
+        cols.map((col) => (
+          <div>
+            <p class="label-caps text-on-dark/60 mb-4">{col.head}</p>
+            <ul class="space-y-2.5">
+              {col.links.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    {...(l.ext
+                      ? { target: "_blank", rel: "noopener" }
+                      : {})}
+                    class="text-on-dark/80 hover:text-on-dark transition-colors"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-12 pt-6 border-t border-on-dark/15 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between label-caps text-on-dark/55"
+    >
+      <span>{BUSINESS.region} · {BUSINESS.hours} · {BUSINESS.priceRange}</span>
+      <span>
+        {BUSINESS.social.handle} · © {year} The Carburetor Whisperer
+      </span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PartsTag from "../components/PartsTag.astro";
+import ServiceRequestForm from "../components/ServiceRequestForm.tsx";
+
+const shipping = [
+  ["01", "Drain all fuel", "Open drain screws and let the carb dry. Fuel in transit is a hazard."],
+  ["02", "Wrap it snug", "Protect delicate linkage by wrapping in a couple rags or bubble wrap. No loose paper."],
+  ["03", "Box it tight", "Use a heavy-duty box. Fill voids with cardboard or foam so it can't move when shaken."],
+];
+---
+
+<Layout
+  title="Send It In"
+  description="Start a mail-in carburetor rebuild request. Tell me the engine, the carb, and the symptoms — I'll email shipping instructions and the flat price before you ship. No payment now."
+  path="/service-request"
+>
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <PartsTag label="Service request · Form 0244" class="!bg-surface" />
+      <h1 class="mt-5 font-display text-4xl sm:text-5xl text-on-dark leading-[1]">
+        Send it in
+      </h1>
+      <p class="mt-4 text-lg text-on-dark/75 max-w-2xl leading-relaxed">
+        Tell me what you've got and what it's doing. I read every request
+        myself and I'll get back to you with the shipping address and the flat
+        price for your type. Don't ship anything until you hear from me.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 items-start">
+    <div>
+      <ServiceRequestForm client:idle />
+    </div>
+
+    <aside class="space-y-6 lg:sticky lg:top-28">
+      <div class="bin p-6">
+        <PartsTag label="Shipping protocol" />
+        <ol class="mt-5 space-y-5">
+          {
+            shipping.map(([n, t, d]) => (
+              <li class="flex gap-4">
+                <span class="manifest-num text-xl">{n}</span>
+                <div>
+                  <p class="font-display text-primary">{t}</p>
+                  <p class="mt-1 text-text-muted text-sm leading-relaxed">{d}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="mt-5 pt-4 border-t border-border text-sm text-text-muted">
+          You'll get the exact address and any specifics once I reply.
+        </p>
+      </div>
+
+      <div class="bin p-6">
+        <PartsTag label="What happens next" />
+        <ul class="mt-4 space-y-3 text-text-muted text-sm leading-relaxed">
+          <li><strong class="text-text">1.</strong> I read it and confirm I can do the job right.</li>
+          <li><strong class="text-text">2.</strong> I email the flat price and the shipping address.</li>
+          <li><strong class="text-text">3.</strong> You ship it. Turnaround starts when it lands.</li>
+          <li><strong class="text-text">4.</strong> Payment after the rebuild — never before.</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+</Layout>

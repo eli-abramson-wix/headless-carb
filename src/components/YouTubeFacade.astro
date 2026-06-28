@@ -1,0 +1,56 @@
+---
+// Poster-image facade. No third-party player loads until the visitor clicks.
+interface Props {
+  videoId: string;
+  poster: string;
+  title: string;
+  class?: string;
+}
+const { videoId, poster, title, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["yt-facade relative aspect-video bg-dark overflow-hidden border border-border", className]}
+  data-video-id={videoId}
+>
+  <img
+    src={poster}
+    alt={title}
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover opacity-80"
+  />
+  <button
+    type="button"
+    class="yt-play absolute inset-0 flex items-center justify-center group"
+    aria-label={`Play: ${title}`}
+  >
+    <span
+      class="flex items-center justify-center w-16 h-16 bg-accent text-white transition-transform group-hover:scale-110"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"
+        ><path d="M8 5v14l11-7z"></path></svg
+      >
+    </span>
+  </button>
+  <span
+    class="absolute left-3 bottom-3 label-caps text-on-dark bg-dark/70 px-2 py-1 pointer-events-none"
+    >{title}</span
+  >
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".yt-facade").forEach((el) => {
+    el.querySelector(".yt-play")?.addEventListener("click", () => {
+      const id = el.dataset.videoId;
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+      iframe.title = "YouTube video player";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.className = "absolute inset-0 h-full w-full";
+      el.innerHTML = "";
+      el.appendChild(iframe);
+    });
+  });
+</script>

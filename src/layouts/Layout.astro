@@ -1,22 +1,85 @@
+---
+import "@fontsource/fjalla-one/400.css";
+import "@fontsource-variable/source-sans-3";
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import MobileStickyBar from "../components/MobileStickyBar.tsx";
+import { BUSINESS } from "../lib/content";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  jsonLd?: Record<string, unknown>[];
+  ctaLabel?: string;
+}
+
+const {
+  title,
+  description,
+  path,
+  jsonLd = [],
+  ctaLabel = "Start a service request",
+} = Astro.props;
+
+const canonical = new URL(path, Astro.site).toString();
+const fullTitle =
+  path === "/" ? `${BUSINESS.name} — ${BUSINESS.tagline}` : `${title} · ${BUSINESS.name}`;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Wix Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#2f3e46" />
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={BUSINESS.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL("/images/hero.jpg", Astro.site).toString()} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Preload the LCP hero image only on the homepage -->
+    {
+      path === "/" && (
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero.jpg"
+          fetchpriority="high"
+        />
+      )
+    }
+
+    {
+      jsonLd.map((block) => (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(block)}
+        />
+      ))
+    }
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:bg-primary focus:text-on-dark focus:px-4 focus:py-2"
+      >Skip to content</a
+    >
+    <SiteHeader path={path} />
+    <main id="main" class="flex-1 pb-16 lg:pb-0">
+      <slot />
+    </main>
+    <SiteFooter />
+    <MobileStickyBar client:load label={ctaLabel} />
+  </body>
+</html>

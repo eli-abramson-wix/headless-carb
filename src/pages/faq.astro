@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { FAQS } from "../lib/content";
+import { faqPage } from "../lib/jsonld";
+---
+
+<Layout
+  title="Questions"
+  description="Answers on shipping a carburetor safely, turnaround times, what can and can't be saved, and how payment works at The Carburetor Whisperer's mail-in rebuild shop."
+  path="/faq"
+  jsonLd={[faqPage(FAQS)]}
+>
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+      <SectionHeading
+        tag="Questions"
+        title="The shipping, turnaround, and can-it-be-saved questions"
+        intro="The things people email about before they send a carb in. If yours isn't here, put it in the service request and I'll answer straight."
+        onDark
+      />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-14">
+    <div class="border border-border divide-y divide-border bin">
+      {
+        FAQS.map((f, i) => (
+          <details class="group" open={i === 0}>
+            <summary
+              class="flex items-start justify-between gap-4 p-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+            >
+              <h2 class="font-display text-xl text-primary leading-tight">
+                {f.q}
+              </h2>
+              <span
+                class="manifest-num text-2xl shrink-0 transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <p class="px-6 pb-6 -mt-1 text-text-muted leading-relaxed">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

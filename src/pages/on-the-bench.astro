@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { getBenchQueue } from "../lib/wix";
+
+const queue = await getBenchQueue();
+const waiting = queue.filter((j) => j.state === "In line").length;
+
+const stateStyle: Record<string, string> = {
+  "On the bench": "bg-accent text-white",
+  "Flow testing": "bg-primary text-on-dark",
+  "Boxing up": "bg-primary text-on-dark",
+  "In line": "bg-surface text-text-muted border border-border",
+};
+---
+
+<Layout
+  title="On the Bench"
+  description="The live queue at The Carburetor Whisperer — see what's being worked on right now and roughly where your carburetor would land in line if you shipped it today."
+  path="/on-the-bench"
+>
+  <section class="pegboard text-on-dark">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+      <SectionHeading
+        tag="On the bench"
+        title="What's clamped in the vise right now"
+        intro="A live look at the line so you know roughly where you'd land. The bench takes them in the order they arrive."
+        onDark
+      />
+      <div class="mt-7 flex flex-wrap gap-3">
+        <span class="parts-tag !bg-surface">{queue.length} in the shop</span>
+        <span class="parts-tag !bg-surface">{waiting} waiting in line</span>
+        <span class="parts-tag !bg-surface">New arrivals join the back</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+    <ol class="border border-border divide-y divide-border bin">
+      {
+        queue.map((job) => (
+          <li class="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] gap-x-5 gap-y-2 p-5 sm:p-6 items-start">
+            <span class="manifest-num text-2xl tabular-nums">
+              {String(job.position).padStart(2, "0")}
+            </span>
+            <div>
+              <p class="font-display text-xl text-primary leading-tight">
+                {job.carb}
+              </p>
+              <p class="label-caps mt-1">{job.owner}</p>
+              <p class="mt-2 text-text-muted">{job.note}</p>
+            </div>
+            <span
+              class:list={[
+                "row-start-1 col-start-2 sm:col-start-3 justify-self-start sm:justify-self-end label-caps !tracking-[0.08em] px-3 py-1.5",
+                stateStyle[job.state],
+              ]}
+            >
+              {job.state}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mt-6 text-text-muted max-w-2xl">
+      Ship today and you'd land at the back of this line. I'll confirm your
+      spot the day your box lands on the bench — and turnaround counts from
+      there, not from when you mail it.
+    </p>
+  </section>
+
+  <CtaBand
+    heading="Want a spot in line?"
+    body="Send the request first. I'll confirm I can do the job, quote your flat price, and tell you where to ship."
+  />
+</Layout>

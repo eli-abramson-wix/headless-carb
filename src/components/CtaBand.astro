@@ -1,0 +1,32 @@
+---
+interface Props {
+  heading?: string;
+  body?: string;
+  cta?: string;
+}
+const {
+  heading = "Ready to send it in?",
+  body = "Start the request and I'll mail you where to ship. No payment now — I confirm I can do the job first.",
+  cta = "Start a service request",
+} = Astro.props;
+---
+
+<section class="pegboard text-on-dark">
+  <div
+    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+  >
+    <div class="max-w-2xl">
+      <h2 class="font-display text-3xl sm:text-4xl text-on-dark">{heading}</h2>
+      <p class="mt-3 text-on-dark/75 text-lg leading-relaxed">{body}</p>
+    </div>
+    <div class="flex flex-wrap gap-3 shrink-0">
+      <a href="/service-request" class="btn btn-accent">{cta}</a>
+      <a
+        href="https://youtube.com/@thecarburetorwhisperer"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-on-dark">Watch a teardown</a
+      >
+    </div>
+  </div>
+</section>
