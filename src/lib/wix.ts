@@ -3,7 +3,7 @@
 // Falls back to the local seed (content.ts) if a collection is empty or
 // unavailable, so the site always renders.
 
-import { wixAdmin } from "./wixClient";
+import { queryElevated } from "./wixClient";
 import {
   CARB_TYPES,
   REVIEWS,
@@ -17,7 +17,7 @@ import {
 
 async function query<T>(collectionId: string, fallback: T[]): Promise<T[]> {
   try {
-    const res = await wixAdmin.items.query(collectionId).find();
+    const res = await queryElevated(collectionId).find();
     const rows = res.items.map((it: any) => (it?.data ?? it) as T);
     return rows.length ? rows : fallback;
   } catch (err) {

@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { wixAdmin } from "../../lib/wixClient";
+import { insertElevated } from "../../lib/wixClient";
 
 export const prerender = false;
 
@@ -24,7 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!data.name || !data.email || !data.symptomsDescription) {
       return json({ ok: false, error: "missing required fields" }, 400);
     }
-    await wixAdmin.items.insert("ServiceRequest", data);
+    await insertElevated("ServiceRequest", data);
     return json({ ok: true }, 200);
   } catch (err) {
     console.error("[api/service-request]", err);

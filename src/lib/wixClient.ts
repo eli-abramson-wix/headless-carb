@@ -1,17 +1,22 @@
-// Server-side Wix client bound to @wix/data with app (elevated) auth.
-// Used for SSR reads and form/provisioning writes. Never imported client-side.
-import { createClient, AppStrategy } from "@wix/sdk";
-import { items, collections } from "@wix/data";
+// Server-side Wix data access for SSR reads and form/provisioning writes.
+// Never imported client-side.
+//
+// Uses the request-bound ambient client that @wix/astro installs per request,
+// elevated so PRIVILEGED collections are reachable from visitor context.
+//
+// Why elevation (and not a hand-built AppStrategy client): the ambient context
+// runs as the page visitor, who can't read/write private collections like
+// ServiceRequest. auth.elevate() bypasses that check for trusted server code.
+//
+// The previous implementation built a client from AppStrategy + WIX_CLIENT_*
+// env vars. Those vars only exist locally (.env.local, gitignored) and are
+// injected by `wix dev`; in the released site they're absent, so every data
+// call failed. SSR reads silently fell back to seed data (site still rendered),
+// while the service-request insert had no fallback and returned 500 — surfacing
+// to users as "Something jammed on my end."
+import { items } from "@wix/data";
+import { auth } from "@wix/essentials";
 
-const env = (k: string): string =>
-  (process.env[k] ?? (import.meta as any).env?.[k] ?? "") as string;
-
-export const wixAdmin = createClient({
-  modules: { items, collections },
-  auth: AppStrategy({
-    appId: env("WIX_CLIENT_ID"),
-    appSecret: env("WIX_CLIENT_SECRET"),
-    instanceId: env("WIX_CLIENT_INSTANCE_ID"),
-    publicKey: env("WIX_CLIENT_PUBLIC_KEY"),
-  }),
-});
+// Elevated query/insert. Elevation carries through the deferred .find() call.
+export const queryElevated = auth.elevate(items.query);
+export const insertElevated = auth.elevate(items.insert);
