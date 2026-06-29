@@ -140,7 +140,7 @@ export default function ServiceRequestForm() {
 
       <button
         type="submit"
-        className="btn btn-primary mt-7 w-full sm:w-auto"
+        className="btn btn-accent mt-7 w-full sm:w-auto"
         disabled={status === "submitting"}
       >
         {status === "submitting" ? "Sending…" : "Send the request"}

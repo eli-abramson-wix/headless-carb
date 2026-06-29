@@ -1,6 +1,4 @@
 ---
-import "@fontsource/fjalla-one/400.css";
-import "@fontsource-variable/source-sans-3";
 import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -37,7 +35,15 @@ const fullTitle =
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#2f3e46" />
+    <meta name="theme-color" content="#131313" />
+
+    <!-- Mechanical Archive type: stamped display, typewriter body, condensed labels -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Narrow:wght@400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -72,7 +78,7 @@ const fullTitle =
   <body class="min-h-screen flex flex-col">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:bg-primary focus:text-on-dark focus:px-4 focus:py-2"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:bg-primary focus:text-dark focus:px-4 focus:py-2 font-display uppercase"
       >Skip to content</a
     >
     <SiteHeader path={path} />

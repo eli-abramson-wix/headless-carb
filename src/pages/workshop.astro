@@ -29,14 +29,33 @@ const gallery: GalleryItem[] = [
   ctaLabel="See pricing"
   jsonLd={[automotiveBusiness()]}
 >
-  <section class="pegboard text-on-dark">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-      <SectionHeading
-        tag="The workshop"
-        title="Precision analog restoration"
-        intro="A clean, organized garage in rural Ohio: stamped labels, drawer fronts, and a wall of parts. The whole pitch is one set of expert hands — not a slick franchise."
-        onDark
-      />
+  <section class="pegboard text-on-dark border-b border-on-dark/15">
+    <div class="mx-auto max-w-7xl grid lg:grid-cols-12 items-stretch">
+      <div
+        class="lg:col-span-7 px-4 sm:px-6 lg:px-8 py-14 lg:py-20 flex flex-col justify-end"
+      >
+        <PartsTag label="Loc: Rural Ohio · Est. 2003" class="!bg-surface" />
+        <h1
+          class="mt-5 font-display text-4xl sm:text-5xl headline-stamped leading-[1.02]"
+        >
+          Precision analog restoration
+        </h1>
+        <p class="mt-4 text-lg text-on-dark/75 max-w-xl leading-relaxed">
+          A clean, organized garage in rural Ohio: stamped labels, drawer
+          fronts, and a wall of parts. The whole pitch is one set of expert
+          hands — not a slick franchise.
+        </p>
+      </div>
+      <div class="lg:col-span-5 lg:border-l border-on-dark/20 min-h-[18rem]">
+        <img
+          src="/images/jet-wall.jpg"
+          alt="A workshop wall of brass jets and small-engine parts, meticulously alphabetized in drawers"
+          width="1200"
+          height="1200"
+          loading="eager"
+          class="w-full h-full object-cover"
+        />
+      </div>
     </div>
   </section>
 
@@ -57,12 +76,20 @@ const gallery: GalleryItem[] = [
 
   <!-- Gallery -->
   <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
-    <SectionHeading
-      tag="The bench, up close"
-      title="What the work actually looks like"
-      intro="Warm, honest macro and mid-shots of real shop work — grease, brass jets, cast-aluminum bodies. Tap any frame to open it."
-    />
-    <div class="mt-8">
+    <div class="flex items-center gap-4">
+      <div class="h-px flex-grow bg-border"></div>
+      <h2
+        class="font-display text-lg sm:text-xl tracking-[0.1em] text-primary text-center"
+      >
+        The Workbench Archive
+      </h2>
+      <div class="h-px flex-grow bg-border"></div>
+    </div>
+    <p class="mt-4 text-text-muted leading-relaxed max-w-2xl mx-auto text-center">
+      Warm, honest macro and mid-shots of real shop work — grease, brass jets,
+      cast-aluminum bodies. Tap any frame to open it.
+    </p>
+    <div class="mt-10">
       <GalleryLightbox items={gallery} client:visible />
     </div>
   </section>

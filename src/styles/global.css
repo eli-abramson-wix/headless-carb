@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
-/* ── The Workbench Standard ──────────────────────────────────────────
-   Industrial-analog design tokens. Palette rooted in aged paper,
-   cast iron, and heat-treated steel. Reconciled from spec-0244 +
-   the_workbench_standard/DESIGN.md.                                    */
+/* ── The Mechanical Archive ──────────────────────────────────────────
+   Industrial-brutalist / tactile-skeuomorphic design tokens. A dark,
+   oil-stained workbench: deep charcoal surfaces, aged-brass highlights,
+   stamped Anton headlines and carbon-copy typewriter body. Reconciled
+   from the_mechanical_archive DESIGN.md + the Stitch redesign.          */
 @theme {
-  --color-background: #f2efea;   /* warm weathered paper — the shop floor */
-  --color-surface: #fbfaf7;      /* clean tags & labels                   */
-  --color-text: #23292b;
-  --color-text-muted: #566064;
-  --color-border: #cbd0cc;       /* pegboard grid lines / hairlines       */
-  --color-primary: #2f3e46;      /* oxidized steel blue-green             */
-  --color-primary-deep: #1c2528;
-  --color-accent: #c2502f;       /* burnt terracotta — gaskets / warnings */
-  --color-dark: #1c2528;
-  --color-on-dark: #f2efea;
+  --color-background: #131313;   /* shop floor — deep charcoal            */
+  --color-surface: #1c1b1b;      /* parts-bin / card surface              */
+  --color-surface-high: #2a2a2a; /* raised drawer front                   */
+  --color-text: #e5e2e1;         /* on-surface — bone white               */
+  --color-text-muted: #9b8f80;   /* outline — warm worn grey              */
+  --color-border: #4e4539;       /* outline-variant — machined groove     */
+  --color-primary: #ecbf7a;      /* aged brass — headlines, brass tags    */
+  --color-primary-deep: #c29958; /* darker brass — hovers                 */
+  --color-accent: #ff8a5c;       /* burnt umber/orange — prices, warnings */
+  --color-secondary: #b6cbc0;    /* slate green — status indicators       */
+  --color-secondary-deep: #384b42;
+  --color-dark: #0e0e0e;         /* deepest charcoal — overlays           */
+  --color-on-dark: #e5e2e1;      /* light text on dark panels             */
+  --color-on-brass: #281900;     /* ink on a brass tag                    */
 
-  --font-display: "Fjalla One", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Source Sans 3 Variable", "Source Sans 3", ui-sans-serif,
-    system-ui, sans-serif;
+  --font-display: "Anton", "Fjalla One", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Courier Prime", ui-monospace, "SFMono-Regular", monospace;
+  --font-label: "Archivo Narrow", ui-sans-serif, system-ui, sans-serif;
 
-  --tracking-stamp: 0.05em;
+  --tracking-stamp: 0.04em;
   --radius-tag: 0px;
 }
 
@@ -32,76 +37,113 @@
   }
   body {
     background-color: var(--color-background);
+    /* single overhead shop-light fall-off */
+    background-image: radial-gradient(
+      circle at 50% -10%,
+      rgba(120, 100, 64, 0.14) 0%,
+      transparent 55%
+    );
+    background-attachment: fixed;
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  /* Fjalla One is stamped metal — always uppercase */
+  /* Anton is stamped metal — always uppercase */
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: var(--tracking-stamp);
     font-weight: 400;
+    line-height: 1.05;
+  }
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-on-brass);
   }
   :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+  /* Heavy industrial scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-dark); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-secondary-deep);
+    border: 2px solid var(--color-dark);
+  }
+}
+
+/* Fixed metallic grain layer over the whole workbench ----------------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ── Signature components ────────────────────────────────────────── */
 @layer components {
-  /* Pegboard backdrop — faint dotted grid */
+  /* Workbench panel — a darker, lit slab to seat hero / CTA sections.
+     Replaces the old light "pegboard" but keeps the class name so every
+     page that wrapped a section in .pegboard transforms automatically.  */
   .pegboard {
-    background-color: var(--color-primary);
-    background-image: radial-gradient(
-      rgba(242, 239, 234, 0.08) 1.25px,
-      transparent 1.25px
-    );
-    background-size: 22px 22px;
+    position: relative;
+    background-color: #181a19;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(120, 100, 64, 0.16) 0%, transparent 60%),
+      radial-gradient(rgba(155, 143, 128, 0.05) 1px, transparent 1px);
+    background-size: auto, 22px 22px;
+    border-top: 1px solid rgba(155, 143, 128, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
   }
   .pegboard-light {
-    background-color: var(--color-background);
+    background-color: var(--color-surface);
     background-image: radial-gradient(
-      rgba(47, 62, 70, 0.07) 1.25px,
-      transparent 1.25px
+      rgba(155, 143, 128, 0.06) 1px,
+      transparent 1px
     );
     background-size: 22px 22px;
   }
 
-  /* The Parts Tag — signature motif. A clipped corner + punched hole. */
+  /* The Parts Tag — signature stamped brass tag. Clipped corner + punched
+     hole, condensed Archivo Narrow caps. */
   .parts-tag {
     position: relative;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    padding: 0.35rem 0.85rem 0.35rem 1.4rem;
-    font-family: var(--font-display);
+    background-color: var(--color-surface-high);
+    border: 1px solid rgba(236, 191, 122, 0.35);
+    padding: 0.4rem 0.9rem 0.4rem 1.5rem;
+    font-family: var(--font-label);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.75rem;
-    color: var(--color-text);
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-primary);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   }
   /* punched hole on the left edge */
   .parts-tag::before {
     content: "";
     position: absolute;
-    left: 0.5rem;
+    left: 0.6rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 9999px;
-    background-color: var(--color-background);
-    box-shadow: inset 0 0 0 1px var(--color-border);
+    background-color: var(--color-dark);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.9);
   }
 
-  /* Tactile buttons --------------------------------------------------- */
+  /* Tactile stamped buttons ------------------------------------------- */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -109,48 +151,61 @@
     gap: 0.5rem;
     font-family: var(--font-display);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.6rem;
+    letter-spacing: 0.05em;
+    font-size: 1rem;
+    padding: 0.8rem 1.7rem;
     border: 1px solid transparent;
     transition: background-color 0.15s ease, color 0.15s ease,
-      border-color 0.15s ease, transform 0.05s ease;
+      border-color 0.15s ease, transform 0.08s ease, box-shadow 0.08s ease;
     cursor: pointer;
-    min-height: 44px;
+    min-height: 46px;
     text-align: center;
   }
-  .btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-on-dark);
-    border-color: var(--color-primary);
-  }
-  .btn-primary:hover {
-    background-color: var(--color-primary-deep);
-  }
-  .btn-primary:active {
-    transform: translateY(1px);
-    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.25);
-  }
+
+  /* Primary conversion — solid brass plate, stamps down on press */
   .btn-accent {
-    background-color: var(--color-accent);
-    color: #fff;
-    border-color: var(--color-accent);
+    background-color: var(--color-primary);
+    color: var(--color-on-brass);
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.55);
   }
   .btn-accent:hover {
-    background-color: #a53b1c;
+    background-color: var(--color-primary-deep);
   }
+  .btn-accent:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  /* Secondary solid — dark drawer front, brass legend */
+  .btn-primary {
+    background-color: var(--color-surface-high);
+    color: var(--color-primary);
+    border-color: rgba(236, 191, 122, 0.4);
+    box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.55);
+  }
+  .btn-primary:hover {
+    background-color: #34322f;
+  }
+  .btn-primary:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  /* Outlined — machined groove */
   .btn-ghost {
     background-color: transparent;
     color: var(--color-primary);
-    border-color: var(--color-primary);
+    border-color: rgba(236, 191, 122, 0.45);
   }
   .btn-ghost:hover {
-    background-color: var(--color-primary);
-    color: var(--color-on-dark);
+    background-color: rgba(236, 191, 122, 0.1);
   }
+
+  /* On a brass / light panel */
   .btn-on-dark {
     background-color: var(--color-on-dark);
-    color: var(--color-primary);
+    color: var(--color-dark);
     border-color: var(--color-on-dark);
   }
   .btn-on-dark:hover {
@@ -158,22 +213,24 @@
     color: var(--color-on-dark);
   }
 
-  /* The Bin — bordered card, depth via containment not shadow */
+  /* The Bin — bordered card, depth via ambient shadow + machined border */
   .bin {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
+    box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.9);
   }
 
-  /* Recessed input — looks like a parts-bin */
+  /* Milled slot — recessed, engraved-looking input */
   .field {
     width: 100%;
-    background-color: var(--color-background);
+    background-color: var(--color-dark);
     border: 1px solid var(--color-border);
-    padding: 0.7rem 0.85rem;
+    padding: 0.75rem 0.9rem;
     font-family: var(--font-body);
     font-size: 1rem;
     color: var(--color-text);
     border-radius: 0;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.55);
     transition: border-color 0.15s ease;
   }
   .field:focus {
@@ -182,28 +239,70 @@
   }
   .field::placeholder {
     color: var(--color-text-muted);
-    opacity: 0.7;
+    opacity: 0.8;
   }
 
-  /* Label-caps — stamped metadata / form labels */
+  /* Label-caps — condensed stamped metadata / form labels */
   .label-caps {
-    font-family: var(--font-body);
+    font-family: var(--font-label);
     font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-text-muted);
   }
 
-  /* Manifest list index numerals */
+  /* Manifest list index numerals — stamped orange */
   .manifest-num {
     font-family: var(--font-display);
     font-variant-numeric: tabular-nums;
     color: var(--color-accent);
   }
+
+  /* Stamped display headline — brass ink pressed into steel */
+  .headline-stamped {
+    color: var(--color-primary);
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.04),
+      -1px -1px 1px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Scratched-metal hairline divider */
+  .scratched {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(155, 143, 128, 0.35) 20%,
+      rgba(155, 143, 128, 0.55) 50%,
+      rgba(155, 143, 128, 0.35) 80%,
+      transparent
+    );
+  }
+
+  /* Job-tag — clipped top-left corner + punched hole, for paper slips */
+  .job-tag {
+    position: relative;
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+  }
+  .job-tag::before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--color-dark);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Slight workbench tilts — things tossed on the bench */
+  .tilt-left { transform: rotate(-0.8deg); }
+  .tilt-right { transform: rotate(0.7deg); }
 }
 
-/* Entry motion — tags settle in with a tiny drop. Static for RM. */
+/* Entry motion — tags settle in with a tiny drop. */
 @layer utilities {
   .stamp-in {
     animation: stamp-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -215,7 +314,7 @@
 @keyframes stamp-in {
   from {
     opacity: 0;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
   to {
     opacity: 1;
@@ -232,4 +331,5 @@
     scroll-behavior: auto !important;
   }
   .stamp-in { opacity: 1; transform: none; }
+  .tilt-left, .tilt-right { transform: none; }
 }

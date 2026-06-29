@@ -14,8 +14,8 @@ const { tag, title, intro, align = "left", onDark = false } = Astro.props;
   <PartsTag label={tag} />
   <h2
     class:list={[
-      "mt-4 font-display text-3xl sm:text-4xl leading-[1.05]",
-      onDark ? "text-on-dark" : "text-primary",
+      "mt-4 font-display text-3xl sm:text-4xl leading-[1.05] text-primary",
+      onDark && "headline-stamped",
     ]}
   >
     {title}

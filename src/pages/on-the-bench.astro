@@ -8,10 +8,10 @@ const queue = await getBenchQueue();
 const waiting = queue.filter((j) => j.state === "In line").length;
 
 const stateStyle: Record<string, string> = {
-  "On the bench": "bg-accent text-white",
-  "Flow testing": "bg-primary text-on-dark",
-  "Boxing up": "bg-primary text-on-dark",
-  "In line": "bg-surface text-text-muted border border-border",
+  "On the bench": "bg-primary text-dark",
+  "Flow testing": "bg-secondary text-dark",
+  "Boxing up": "bg-secondary text-dark",
+  "In line": "bg-surface-high text-text-muted border border-border",
 };
 ---
 
